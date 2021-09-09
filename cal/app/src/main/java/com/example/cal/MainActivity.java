@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String operate = "";
     int count = 0;
     String digital = "";
+    boolean getResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +52,15 @@ public class MainActivity extends AppCompatActivity {
         btn7 = findViewById(R.id.btn_7);
         btn8 = findViewById(R.id.btn_8);
         btn9 = findViewById(R.id.btn_9);
-        add = findViewById(R.id.add);
-        sub = findViewById(R.id.sub);
-        cheng = findViewById(R.id.cheng);
-        chu = findViewById(R.id.chu);
-        deng = findViewById(R.id.deng);
-        dian = findViewById(R.id.dian);
-        clear = findViewById(R.id.clear);
-        cancel = findViewById(R.id.cancel);
-        text = findViewById(R.id.str);
+        add = findViewById(R.id.btn_add);
+        sub = findViewById(R.id.btn_sub);
+        cheng = findViewById(R.id.btn_cheng);
+        chu = findViewById(R.id.btn_chu);
+        deng = findViewById(R.id.btn_equal);
+        dian = findViewById(R.id.btn_point);
+        clear = findViewById(R.id.btn_clear);
+        cancel = findViewById(R.id.btn_cancel);
+        text = findViewById(R.id.result_text);
 
         btn00.setOnClickListener(new Click());
         btn0.setOnClickListener(new Click());
@@ -86,116 +87,107 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            String str = "";
+            String str = text.getText().toString();
+            if(getResult) {
+                str = "";
+                getResult = false;
+            }
             useStack used = new useStack();
             switch (view.getId()){
                 case R.id.btn_0:
-                    str = text.getText().toString();
                     str += "0";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_00:
-                    str = text.getText().toString();
                     str += "00";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_1:
-                    str = text.getText().toString();
                     str += "1";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_2:
-                    str = text.getText().toString();
                     str += "2";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_3:
-                    str = text.getText().toString();
                     str += "3";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_4:
-                    str = text.getText().toString();
                     str += "4";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_5:
-                    str = text.getText().toString();
                     str += "5";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_6:
-                    str = text.getText().toString();
                     str += "6";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_7:
-                    str = text.getText().toString();
                     str += "7";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_8:
-                    str = text.getText().toString();
                     str += "8";
                     digital += str;
                     text.setText(str);
                     break;
                 case R.id.btn_9:
-                    str = text.getText().toString();
                     str += "9";
                     digital += str;
                     text.setText(str);
                     break;
-                case R.id.add:
-                    str = text.getText().toString();
+                case R.id.btn_add:
                     str += "+";
                     text.setText(str);
                     break;
-                case R.id.sub:
-                    str = text.getText().toString();
+                case R.id.btn_sub:
                     str += "-";
                     text.setText(str);
                     break;
-                case R.id.cheng:
-                    str = text.getText().toString();
+                case R.id.btn_cheng:
                     str += "*";
                     text.setText(str);
                     break;
-                case R.id.chu:
-                    str = text.getText().toString();
+                case R.id.btn_chu:
                     str += "/";
                     text.setText(str);
                     break;
-                case R.id.dian:
-                    str = text.getText().toString();
+                case R.id.btn_point:
                     str += ".";
                     text.setText(str);
                     break;
-                case R.id.deng:
-                    str = text.getText().toString();
-                    str = used.getResult(str);
-                    text.setText(str);
+                case R.id.btn_equal:
+                    if(!str.equals("")) {
+                        str = used.getResult(str);
+                        getResult = true;
+                        text.setText(str);
+                    }
                     break;
-                case R.id.clear:
+                case R.id.btn_clear:
                     str = "";
                     text.setText(str);
                     num1 = 0;
                     num2 = 0;
                     result = 0;
                     break;
-                case R.id.cancel:
-                    str = text.getText().toString();
-                    str = str.substring(0, str.length() - 1);
-                    text.setText(str);
+                case R.id.btn_cancel:
+                    if(!str.equals("")) {
+                        str = str.substring(0, str.length() - 1);
+                        text.setText(str);
+                    }
                     break;
                 default:
                     break;

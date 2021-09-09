@@ -1,5 +1,7 @@
 package mystack;
 
+import android.util.Log;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,6 @@ public class useStack {
         List<String> mylist = new ArrayList<>();
         if(str == null || str.length() == 0)
             return null;
-        char[] arr = str.toCharArray();
         int index = 0;
         for(int i = 0; i < str.length(); i++){
             if((str.charAt(i) < '0' || str.charAt(i) > '9') && str.charAt(i) != '.'){
@@ -42,6 +43,7 @@ public class useStack {
         while (!operators.isEmpty()) {
             mylist.add(String.valueOf(operators.pop()));
         }
+//        Log.v("number", mylist.toString());
         return mylist;
     }
     private boolean compare(char a, char b){
@@ -51,48 +53,29 @@ public class useStack {
     }
     public String getResult(String str){
         List<String> reversePolish = divide(str);
-//        for(int i = 0; i < reversePolish.size(); i++){
-//            String strNum = reversePolish.get(i);
-//            if(isNumeric(strNum))
-//                numbers.push(Double.parseDouble(strNum));
-//            else {
-//                double number1 = numbers.pop();
-//                double number2 = numbers.pop();
-//                double result = 0;
-//                switch (strNum) {
-//                    case "+":
-//                        result = number2 + number1;
-//                        break;
-//                    case "-":
-//                        result = number2 - number1;
-//                        break;
-//                    case "*":
-//                        result = number2 * number1;
-//                        break;
-//                    case "/":
-//                        result = number2 / number1;
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                numbers.push(result);
-//            }
-//        }
+//        Log.v("number", reversePolish.toString());
+        String errorMessage = "error";
         double number1 = 0;
         double number2 = 0;
         while(reversePolish.size() != 0){
             String strNum = reversePolish.get(0);
-            if(isNumeric(strNum))
+            if(isNumeric(strNum)) {
                 numbers.push(Double.parseDouble(strNum));
-            else {
+//                Log.v("number", strNum);
+            }
+            else if(strNum.length() != 1){
+                return errorMessage;
+            }
+            else{
+//                Log.v("number", strNum);
                 if(!numbers.isEmpty())
                     number1 = numbers.pop();
                 else
-                    return "error";
+                    return errorMessage;
                 if(!numbers.isEmpty())
                     number2 = numbers.pop();
                 else
-                    return "error";
+                    return errorMessage;
                 double result = 0;
                 switch (strNum) {
                     case "+":
@@ -111,6 +94,7 @@ public class useStack {
                         break;
                 }
                 numbers.push(result);
+//                Log.v("number", String.valueOf(result));
             }
             reversePolish.remove(0);
         }
@@ -118,7 +102,7 @@ public class useStack {
         if(numbers.isEmpty())
             numbers.push(step);
         else
-            return "error";
+            return errorMessage;
         return String.valueOf(numbers.pop());
     }
     private boolean isNumeric(String str) {
@@ -130,49 +114,4 @@ public class useStack {
         }
         return true;
     }
-
-//    public boolean enabled(String str){
-//        // 错误情况，运算符连续
-//        String error1 = "/[\\+\\-\\*\\/]{2,}/";
-//        if(str.matches(error1))
-//            return false;
-//        // 空括号
-//        String error2 = "/\\(\\)/";
-//        if(str.matches(error2))
-//            return false;
-//        // 错误情况，(后面是运算符
-//        String error3 = "/\\([\\+\\-\\*\\/]/";
-//        if(str.matches(error3))
-//            return false;
-//        // 错误情况，(前面不是运算符
-//        String error4 = "/[^\\+\\-\\*\\/]\\(/";
-//        if(str.matches(error4))
-//            return false;
-//        // 错误情况，)前面是运算符
-//        String error5 = "/[\\+\\-\\*\\/]\\)/";
-//        if(str.matches(error5))
-//            return false;
-//        // 错误情况，)后面不是运算符
-//        String error6 = "/\\)[^\\+\\-\\*\\/]/";
-//        if(str.matches(error6))
-//            return false;
-//        //运算符号不能在首末位
-//        String error7 = "/^[\\+\\-\\*\\/.]|[\\+\\-\\*\\/.]$/";
-//        if(str.matches(error7))
-//            return false;
-//        //左右括号匹配
-//        Stack<Character> bracketStack = new SeqStack<>();
-//        for(int i = 0; i < str.length(); i++){
-//            char item = str.charAt(i);
-//            if(item == '(')
-//                bracketStack.push('(');
-//            else if(item == ')'){
-//                if(!bracketStack.isEmpty())
-//                    bracketStack.pop();
-//                else
-//                    return false;
-//            }
-//        }
-//        return true;
-//    }
 }
