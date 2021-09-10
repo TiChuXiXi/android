@@ -19,27 +19,48 @@
         android:layout_margin="5dp"
         android:textSize="50sp"
         android:background="@android:color/holo_blue_bright"/>
+
+    <Button
+        android:id="@+id/btn_reci"
+        android:text="1/x"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_pow2"
+        android:text="x^2"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_pow3"
+        android:text="x^3"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btn_clear"
         android:text="清零"
         android:layout_margin="5dp"
+        android:layout_rowSpan="2"
+        android:layout_gravity="fill_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_chu"
-        android:text="/"
+        android:id="@+id/btn_sqrt"
+        android:text="x^(1/2)"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_cheng"
-        android:text="*"
+        android:id="@+id/btn_ln"
+        android:text="ln"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_cancel"
-        android:text="返回"
+        android:id="@+id/btn_log"
+        android:text="log"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -62,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_sub"
-        android:text="-"
+        android:id="@+id/btn_factorial"
+        android:text="X!"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -86,8 +107,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_add"
-        android:text="+"
+        android:id="@+id/btn_sin"
+        android:text="sin"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -110,11 +131,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_equal"
-        android:text="="
+        android:id="@+id/btn_cos"
+        android:text="cos"
         android:layout_margin="5dp"
-        android:layout_rowSpan="2"
-        android:layout_gravity="fill_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
@@ -135,5 +154,10 @@
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+    <Button
+        android:id="@+id/btn_tan"
+        android:text="tan"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </GridLayout>

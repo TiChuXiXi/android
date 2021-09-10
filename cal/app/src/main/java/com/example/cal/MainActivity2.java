@@ -12,22 +12,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import mystack.useStack;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     private static final int MOVE = 200;
 
     Button btn00,btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
-    Button add,sub,cheng,chu,deng,dian,clear,cancel;
+    Button point,clear;
+    Button reci,pow2,pow3,sqrt,ln,log,factorial,sin,cos,tan;
     TextView text;
 
-    boolean getResult = false;
+    double getResult = 0;
 
     MyGesture myGesture;
     GestureDetector gestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         myGesture = new MyGesture();
         gestureDetector = new GestureDetector(myGesture);
@@ -43,14 +44,18 @@ public class MainActivity extends AppCompatActivity {
         btn7 = findViewById(R.id.btn_7);
         btn8 = findViewById(R.id.btn_8);
         btn9 = findViewById(R.id.btn_9);
-        add = findViewById(R.id.btn_add);
-        sub = findViewById(R.id.btn_sub);
-        cheng = findViewById(R.id.btn_cheng);
-        chu = findViewById(R.id.btn_chu);
-        deng = findViewById(R.id.btn_equal);
-        dian = findViewById(R.id.btn_point);
+        point = findViewById(R.id.btn_point);
         clear = findViewById(R.id.btn_clear);
-        cancel = findViewById(R.id.btn_cancel);
+        reci = findViewById(R.id.btn_reci);
+        pow2 = findViewById(R.id.btn_pow2);
+        pow3 = findViewById(R.id.btn_pow3);
+        sqrt = findViewById(R.id.btn_sqrt);
+        factorial = findViewById(R.id.btn_factorial);
+        sin = findViewById(R.id.btn_sin);
+        cos = findViewById(R.id.btn_cos);
+        tan = findViewById(R.id.btn_tan);
+        ln = findViewById(R.id.btn_ln);
+        log = findViewById(R.id.btn_log);
         text = findViewById(R.id.result_text);
 
         btn00.setOnClickListener(new Click());
@@ -64,14 +69,18 @@ public class MainActivity extends AppCompatActivity {
         btn7.setOnClickListener(new Click());
         btn8.setOnClickListener(new Click());
         btn9.setOnClickListener(new Click());
-        add.setOnClickListener(new Click());
-        sub.setOnClickListener(new Click());
-        cheng.setOnClickListener(new Click());
-        chu.setOnClickListener(new Click());
-        deng.setOnClickListener(new Click());
-        dian.setOnClickListener(new Click());
+        point.setOnClickListener(new Click());
         clear.setOnClickListener(new Click());
-        cancel.setOnClickListener(new Click());
+        reci.setOnClickListener(new Click());
+        pow2.setOnClickListener(new Click());
+        pow3.setOnClickListener(new Click());
+        sqrt.setOnClickListener(new Click());
+        factorial.setOnClickListener(new Click());
+        sin.setOnClickListener(new Click());
+        cos.setOnClickListener(new Click());
+        tan.setOnClickListener(new Click());
+        log.setOnClickListener(new Click());
+        ln.setOnClickListener(new Click());
     }
 
     @Override
@@ -82,9 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private class MyGesture extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if(e1.getX() - e2.getX() < MOVE){
-                startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+            if(e1.getX() - e2.getX() > MOVE){
+                startActivity(new Intent(MainActivity2.this, MainActivity.class));
             }
             return true;
         }
@@ -96,11 +104,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
 //            Log.v("test", String.valueOf(text.getWidth()));
             String str = text.getText().toString();
-            if(getResult) {
-                str = "";
-                getResult = false;
-            }
-            useStack used = new useStack();
+            getResult = getResult(str);
             switch (view.getId()){
                 case R.id.btn_0:
                     str += "0";
@@ -146,46 +150,78 @@ public class MainActivity extends AppCompatActivity {
                     str += "9";
                     text.setText(str);
                     break;
-                case R.id.btn_add:
-                    str += "+";
-                    text.setText(str);
-                    break;
-                case R.id.btn_sub:
-                    str += "-";
-                    text.setText(str);
-                    break;
-                case R.id.btn_cheng:
-                    str += "*";
-                    text.setText(str);
-                    break;
-                case R.id.btn_chu:
-                    str += "/";
-                    text.setText(str);
-                    break;
                 case R.id.btn_point:
-                    str += ".";
+                    if(!getPoint(str))
+                        str += ".";
                     text.setText(str);
-                    break;
-                case R.id.btn_equal:
-                    if(!str.equals("")) {
-                        str = used.getResult(str);
-                        getResult = true;
-                        text.setText(str);
-                    }
                     break;
                 case R.id.btn_clear:
                     str = "";
                     text.setText(str);
                     break;
-                case R.id.btn_cancel:
-                    if(!str.equals("")) {
-                        str = str.substring(0, str.length() - 1);
-                        text.setText(str);
-                    }
+                case R.id.btn_reci:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(1/getResult));
+                    break;
+                case R.id.btn_pow2:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.pow(getResult, 2)));
+                    break;
+                case R.id.btn_pow3:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.pow(getResult, 3)));
+                    break;
+                case R.id.btn_sqrt:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.sqrt(getResult)));
+                    break;
+                case R.id.btn_ln:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.log(getResult)));
+                    break;
+                case R.id.btn_log:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.log10(getResult)));
+                    break;
+                case R.id.btn_factorial:
+                    if(getResult != -1)
+                        if(getResult - (int)getResult == 0)
+                            text.setText(getFactorial((int)getResult));
+                    break;
+                case R.id.btn_sin:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.sin(getResult*180/Math.PI)));
+                    break;
+                case R.id.btn_cos:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.cos(getResult*180/Math.PI)));
+                    break;
+                case R.id.btn_tan:
+                    if(getResult != -1)
+                        text.setText(String.valueOf(Math.tan(getResult*180/Math.PI)));
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    public boolean getPoint(String str){
+        return str.contains(".");
+    }
+
+    public double getResult(String str){
+        if(!str.equals(""))
+            return Double.parseDouble(str);
+        return -1;
+    }
+
+    public int getFactorial(int content){
+        int sum = 1;
+        while(content > 1){
+            sum *= content;
+            content--;
+        }
+        return sum;
     }
 }
