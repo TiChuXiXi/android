@@ -92,7 +92,8 @@ public class MainActivity2 extends AppCompatActivity {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if(e1.getX() - e2.getX() > MOVE){
-                startActivity(new Intent(MainActivity2.this, MainActivity.class));
+                finish();
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
             return true;
         }
@@ -186,19 +187,20 @@ public class MainActivity2 extends AppCompatActivity {
                 case R.id.btn_factorial:
                     if(getResult != -1)
                         if(getResult - (int)getResult == 0)
-                            text.setText(getFactorial((int)getResult));
+//                            Log.v("MainActivity2", ""+getFactorial((int) getResult));
+                            text.setText(String.valueOf(getFactorial((int)getResult)));
                     break;
                 case R.id.btn_sin:
                     if(getResult != -1)
-                        text.setText(String.valueOf(Math.sin(getResult*180/Math.PI)));
+                        text.setText(String.valueOf(Math.round(Math.sin(getResult*Math.PI/180)*1000000)/1000000.0));
                     break;
                 case R.id.btn_cos:
                     if(getResult != -1)
-                        text.setText(String.valueOf(Math.cos(getResult*180/Math.PI)));
+                        text.setText(String.valueOf(Math.round(Math.cos(getResult*Math.PI/180)*1000000)/1000000.0));
                     break;
                 case R.id.btn_tan:
                     if(getResult != -1)
-                        text.setText(String.valueOf(Math.tan(getResult*180/Math.PI)));
+                        text.setText(String.valueOf(Math.round(Math.tan(getResult*Math.PI/180)*1000000)/1000000.0));
                     break;
                 default:
                     break;

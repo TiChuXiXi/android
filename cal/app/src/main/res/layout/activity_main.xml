@@ -13,7 +13,7 @@
         android:id="@+id/result_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="right"
         android:layout_columnSpan="4"
         android:layout_gravity="fill_horizontal"
         android:layout_margin="5dp"
