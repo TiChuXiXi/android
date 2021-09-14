@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MOVE = 200;
 
     Button btn00,btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
-    Button add,sub,cheng,chu,deng,dian,clear,cancel;
+    Button add,sub,cheng,chu,deng,dian,clear,cancel,left,right;
     TextView text;
 
     boolean getResult = false;
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         clear = findViewById(R.id.btn_clear);
         cancel = findViewById(R.id.btn_cancel);
         text = findViewById(R.id.result_text);
+        left = findViewById(R.id.btn_left);
+        right = findViewById(R.id.btn_right);
 
         btn00.setOnClickListener(new Click());
         btn0.setOnClickListener(new Click());
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         dian.setOnClickListener(new Click());
         clear.setOnClickListener(new Click());
         cancel.setOnClickListener(new Click());
+        left.setOnClickListener(new Click());
+        right.setOnClickListener(new Click());
     }
 
     @Override
@@ -85,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
             if(e1.getX() - e2.getX() < MOVE){
                 startActivity(new Intent(MainActivity.this, MainActivity2.class));
                 overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+            }else if(e1.getX() - e2.getX() > MOVE){
+                startActivity(new Intent(MainActivity.this, MainActivity3.class));
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
             return true;
         }
@@ -102,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
             }
             useStack used = new useStack();
             switch (view.getId()){
+                case R.id.btn_left:
+                    str += "(";
+                    text.setText(str);
+                    break;
+                case R.id.btn_right:
+                    str += ")";
+                    text.setText(str);
+                    break;
                 case R.id.btn_0:
                     str += "0";
                     text.setText(str);

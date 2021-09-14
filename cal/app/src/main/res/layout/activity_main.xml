@@ -6,6 +6,7 @@
     android:rowCount="7"
     android:columnCount="4"
     android:layout_gravity="center"
+    android:clipChildren="false"
     android:background="#3592C4"
     tools:context=".MainActivity">
 
@@ -20,20 +21,20 @@
         android:textSize="50sp"
         android:background="@android:color/holo_blue_bright"/>
     <Button
+        android:id="@+id/btn_left"
+        android:text="("
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_right"
+        android:text=")"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
         android:id="@+id/btn_clear"
         android:text="清零"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btn_chu"
-        android:text="/"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btn_cheng"
-        android:text="*"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -57,13 +58,13 @@
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btn_9"
-        android:text="9"
-        android:layout_margin="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="9" />
     <Button
-        android:id="@+id/btn_sub"
-        android:text="-"
+        android:id="@+id/btn_chu"
+        android:text="/"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -86,8 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_add"
-        android:text="+"
+        android:id="@+id/btn_cheng"
+        android:text="*"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -110,11 +111,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_equal"
-        android:text="="
+        android:id="@+id/btn_sub"
+        android:text="-"
         android:layout_margin="5dp"
-        android:layout_rowSpan="2"
-        android:layout_gravity="fill_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
@@ -135,5 +134,18 @@
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+    <Button
+        android:id="@+id/btn_add"
+        android:text="+"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_equal"
+        android:text="="
+        android:layout_margin="5dp"
+        android:layout_columnSpan="4"
+        android:layout_gravity="fill_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </GridLayout>
