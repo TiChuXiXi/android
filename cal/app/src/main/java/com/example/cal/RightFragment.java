@@ -72,7 +72,6 @@ public class RightFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ArrayList<String> list = new ArrayList<>();
-//                String edit_text11 = "", edit_text22 = "", edit_text33 = "", edit_text44 = "";
                 getNumber(list);
                 Log.v("RightFragment", handle+"");
                 if(handle&&isDigital(item, list)){

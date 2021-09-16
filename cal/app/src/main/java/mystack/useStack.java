@@ -16,18 +16,24 @@ public class useStack {
             return null;
         int index = 0;
         for(int i = 0; i < str.length(); i++){
+            Log.v("number", index+"");
             if((str.charAt(i) < '0' || str.charAt(i) > '9') && str.charAt(i) != '.'){
-                String num = str.substring(index, i);
-                mylist.add(num);
-                index = i + 1;
-                if(str.charAt(i) == '(')
+                if(str.charAt(i) != '(' && index < i){
+                    String num = str.substring(index, i);
+                    mylist.add(num);
+                    index = i + 1;
+                }
+                if(str.charAt(i) == '('){
+                    index = i + 1;
                     operators.push(str.charAt(i));
-                else if(str.charAt(i) == '+' || str.charAt(i) == '-' || str.charAt(i) == '*' || str.charAt(i) == '/'){
+                } else if(str.charAt(i) == '+' || str.charAt(i) == '-' || str.charAt(i) == '*' || str.charAt(i) == '/'){
                     while(!operators.isEmpty() && !compare(operators.peek(), str.charAt(i))){
                         mylist.add(String.valueOf(operators.pop()));
                     }
                     operators.push(str.charAt(i));
                 } else if(str.charAt(i) == ')'){
+                    if(i != str.length() - 1)
+                        index++;
                     while (!operators.isEmpty()) {
                         if(operators.peek() != '(')
                             mylist.add(String.valueOf(operators.pop()));
@@ -39,11 +45,12 @@ public class useStack {
                 }
             }
         }
-        mylist.add(str.substring(index));
+        if(str.charAt(str.length() - 1) != ')')
+            mylist.add(str.substring(index));
         while (!operators.isEmpty()) {
             mylist.add(String.valueOf(operators.pop()));
         }
-//        Log.v("number", mylist.toString());
+        Log.v("number", mylist.toString());
         return mylist;
     }
     private boolean compare(char a, char b){

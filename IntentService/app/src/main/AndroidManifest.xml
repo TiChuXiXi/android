@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cal">
+    package="com.example.intentservice">
 
     <application
         android:allowBackup="true"
@@ -8,17 +8,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Cal">
+        android:theme="@style/Theme.IntentService">
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <service
+            android:name=".MyIntentService"
+            android:exported="false" />
+
         <activity
-            android:launchMode="singleTask"
-            android:name=".MainActivity3"
-            android:exported="true" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".MainActivity2"
-            android:exported="true" />
-        <activity
-            android:launchMode="singleTask"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

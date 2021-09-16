@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import mystack.useStack;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MOVE = 200;
 
     Button btn00,btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
-    Button add,sub,cheng,chu,deng,dian,clear,cancel,left,right;
+    Button add,sub,cheng,chu,deng,dian,clear,cancel,left,right,help;
     TextView text;
 
     boolean getResult = false;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         text = findViewById(R.id.result_text);
         left = findViewById(R.id.btn_left);
         right = findViewById(R.id.btn_right);
+        help = findViewById(R.id.btn_help);
 
         btn00.setOnClickListener(new Click());
         btn0.setOnClickListener(new Click());
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(new Click());
         left.setOnClickListener(new Click());
         right.setOnClickListener(new Click());
+        help.setOnClickListener(new Click());
     }
 
     @Override
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private class MyGesture extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if(e1.getX() - e2.getX() < MOVE){
+            if(e2.getX() - e1.getX() > MOVE){
                 startActivity(new Intent(MainActivity.this, MainActivity2.class));
                 overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
             }else if(e1.getX() - e2.getX() > MOVE){
@@ -109,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
             }
             useStack used = new useStack();
             switch (view.getId()){
+                case R.id.btn_help:
+                    Toast.makeText(MainActivity.this, "左右滑动发现新功能！", Toast.LENGTH_SHORT).show();
+                    break;
                 case R.id.btn_left:
                     str += "(";
                     text.setText(str);
@@ -183,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.btn_equal:
                     if(!str.equals("")) {
+                        Log.v("MainActivity", str);
                         str = used.getResult(str);
                         getResult = true;
                         text.setText(str);

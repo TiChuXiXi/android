@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:gravity="center"
             android:id="@+id/edit_title1"
             android:layout_weight="3"
             android:layout_width="match_parent"
@@ -46,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:gravity="center"
             android:id="@+id/edit_title2"
             android:layout_weight="3"
             android:layout_width="match_parent"
@@ -63,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:gravity="center"
             android:id="@+id/edit_title3"
             android:layout_weight="3"
             android:layout_width="match_parent"
@@ -80,6 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:gravity="center"
             android:id="@+id/edit_title4"
             android:layout_weight="3"
             android:layout_width="match_parent"

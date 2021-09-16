@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:rowCount="7"
+    android:rowCount="8"
     android:columnCount="4"
     android:layout_gravity="center"
     android:background="#3592C4"
@@ -158,6 +158,14 @@
         android:id="@+id/btn_tan"
         android:text="tan"
         android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_help"
+        android:text="帮助"
+        android:layout_margin="5dp"
+        android:layout_columnSpan="4"
+        android:layout_gravity="fill_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </GridLayout>
