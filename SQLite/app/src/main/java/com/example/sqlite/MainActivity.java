@@ -3,9 +3,12 @@ package com.example.sqlite;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,26 +27,69 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     WordsDBHelper mWord;
     ListView listView;
+    FragmentManager fragmentManager;
+    FragmentTransaction transaction;
+    RightFragment rightFragment;
+    boolean island = false;
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            island = true;
+            setContentView(R.layout.land_main);
+            init();
+            Toast.makeText(this, "land", Toast.LENGTH_SHORT).show();
+        }else{
+            island = false;
+            setContentView(R.layout.activity_main);
+            init();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        init();
+    }
+    public void init(){
         listView = findViewById(R.id.mylist);
         registerForContextMenu(listView);
 
         mWord = new WordsDBHelper(this);
 
         ArrayList<Map<String, String>> items = getAllWords();
-        Log.v("Activity1", items.toString());
+//        Log.v("Activity1", items.toString());
         setWordsListAdapter(listView, items);
+
+        loadRightFragment();
+    }
+
+    public void loadRightFragment(){
+        fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
+        rightFragment = new RightFragment();
+        transaction.replace(R.id.sample_show, rightFragment).commit();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map<String, String> map = getAllWords().get(i);
+
+                rightFragment.getTextView(new RightFragment.CallBack() {
+                    @Override
+                    public void setSample(TextView textView) {
+                        textView.setText(map.get(Words.Word.COLUMN_NAME_SAMPLE));
+                    }
+                });
+            }
+        });
     }
 
     private ArrayList<Map<String, String>> getAllWords(){
@@ -78,23 +123,19 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        TextView text_id, text_name, text_mean, text_sample;
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        View view = info.targetView;
+        int index = info.position;
+        Map<String, String> map = getAllWords().get(index);
         switch (item.getItemId()){
             case R.id.delete:
-                text_id = view.findViewById(R.id.id123);
-                if(text_id != null)
-                    DeleteDialog(text_id.getText().toString());
+                DeleteDialog(map.get(Words.Word._ID));
                 break;
             case R.id.change:
-                text_id = view.findViewById(R.id.id123);
-                text_name = view.findViewById(R.id.name);
-                text_mean = view.findViewById(R.id.mean);
-                text_sample = view.findViewById(R.id.sample);
-                if(text_id != null && text_name != null && text_mean != null && text_sample != null)
-                    UpdateDialog(text_id.getText().toString(), text_name.getText().toString(),
-                            text_mean.getText().toString(), text_sample.getText().toString());
+                String up_id = map.get(Words.Word._ID);
+                String up_name = map.get(Words.Word.COLUMN_NAME_WORD);
+                String up_mean = map.get(Words.Word.COLUMN_NAME_MEAN);
+                String up_sample = map.get(Words.Word.COLUMN_NAME_SAMPLE);
+                UpdateDialog(up_id, up_name, up_mean, up_sample);
                 break;
         }
         return true;
@@ -103,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     private void setWordsListAdapter(ListView listView, ArrayList<Map<String, String>> item){
         SimpleAdapter adapter = new SimpleAdapter(MainActivity.this, item, R.layout.item,
                 new String[]{Words.Word._ID, Words.Word.COLUMN_NAME_WORD, Words.Word.COLUMN_NAME_MEAN, Words.Word.COLUMN_NAME_SAMPLE},
-                new int[]{R.id.id123, R.id.name, R.id.mean, R.id.sample});
+                new int[]{R.id.id123, R.id.name, R.id.mean, R.id.item_sample});
         listView.setAdapter(adapter);
     }
 
@@ -184,13 +225,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String search_name = ((EditText)linearLayout.findViewById(R.id.search_word)).getText().toString();
-                        Log.v("Activity1", search_name);
+//                        Log.v("Activity1", search_name);
                         ArrayList<Map<String, String>> item = select(search_name);
-                        Log.v("Activity1", item.toString());
+//                        Log.v("Activity1", item.toString());
                         if(item.size() > 0){
                             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                             intent.putExtra("searchedResult", select(search_name));
+                            intent.putExtra("layout", island);
                             startActivity(intent);
+//                            setWordsListAdapter(listView, select(search_name));
                         }else
                             Toast.makeText(MainActivity.this, "没有找到符合条件的单词", Toast.LENGTH_LONG).show();
                     }

@@ -3,6 +3,11 @@ package com.example.sqlite;
 import android.provider.BaseColumns;
 
 public class Words {
+
+    public static final String Author = "WORD_APP";
+    public static final int WORD_CODE = 1;
+    public static final String Path = "word";
+
     public Words(){}
 
     public static class Word implements BaseColumns {

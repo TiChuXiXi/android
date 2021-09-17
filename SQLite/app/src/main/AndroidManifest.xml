@@ -9,11 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SQLite">
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="WORD_APP"
+            android:enabled="true"
+            android:exported="true"></provider>
+
         <activity
             android:name=".SearchActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
