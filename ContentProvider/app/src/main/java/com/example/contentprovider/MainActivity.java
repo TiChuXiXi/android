@@ -1,11 +1,7 @@
-package com.example.sqlite;
+package com.example.contentprovider;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -25,18 +21,24 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    WordsDBHelper mWord;
     ListView listView;
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
     RightFragment rightFragment;
     boolean island = false;
+    ContentResolver resolver;
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.mylist);
         registerForContextMenu(listView);
 
-        mWord = new WordsDBHelper(this);
+        resolver = this.getContentResolver();
 
         ArrayList<Map<String, String>> items = getAllWords();
 //        Log.v("Activity1", items.toString());
@@ -95,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<Map<String, String>> getAllWords(){
-        String sql = "select * from words";
-        SQLiteDatabase db = mWord.getReadableDatabase();
-        Cursor cursor = db.rawQuery(sql, new String[]{});
+//        String sql = "select * from words";
+//        SQLiteDatabase db = mWord.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(sql, new String[]{});
+        Cursor cursor = resolver.query(Words.Word.uri, null, null, null, null);
         return getSearchedWords(cursor);
     }
     @Override
@@ -169,9 +172,14 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
     private void insert(String str1, String str2, String str3){
-        String sql = "insert into words(word, meaning, sample) values(?,?,?)";
-        SQLiteDatabase db = mWord.getWritableDatabase();
-        db.execSQL(sql, new String[]{str1, str2, str3});
+//        String sql = "insert into words(word, meaning, sample) values(?,?,?)";
+//        SQLiteDatabase db = mWord.getWritableDatabase();
+//        db.execSQL(sql, new String[]{str1, str2, str3});
+        ContentValues values = new ContentValues();
+        values.put(Words.Word.COLUMN_NAME_WORD, str1);
+        values.put(Words.Word.COLUMN_NAME_MEAN, str2);
+        values.put(Words.Word.COLUMN_NAME_SAMPLE, str3);
+        resolver.insert(Words.Word.uri, values);
     }
 
     private void DeleteDialog(String wordId){
@@ -188,9 +196,11 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
     private void delete(String str){
-        String sql = "delete from words where _id = ?";
-        SQLiteDatabase db = mWord.getWritableDatabase();
-        db.execSQL(sql, new String[]{str});
+//        String sql = "delete from words where _id = ?";
+//        SQLiteDatabase db = mWord.getWritableDatabase();
+//        db.execSQL(sql, new String[]{str});
+        String select = "_id=?";
+        resolver.delete(Words.Word.uri, select, new String[]{str});
     }
 
     private void UpdateDialog(String wordId, String wordName, String wordMean, String wordSample){
@@ -215,9 +225,15 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
     private void update(String str1, String str2, String str3, String str4){
-        String sql = "update words set word=?,meaning=?,sample=? where _id=?";
-        SQLiteDatabase db = mWord.getWritableDatabase();
-        db.execSQL(sql, new String[]{str2, str3, str4, str1});
+//        String sql = "update words set word=?,meaning=?,sample=? where _id=?";
+//        SQLiteDatabase db = mWord.getWritableDatabase();
+//        db.execSQL(sql, new String[]{str2, str3, str4, str1});
+        ContentValues values = new ContentValues();
+        values.put(Words.Word.COLUMN_NAME_WORD, str2);
+        values.put(Words.Word.COLUMN_NAME_MEAN, str3);
+        values.put(Words.Word.COLUMN_NAME_SAMPLE, str4);
+        String select = "_id=?";
+        resolver.update(Words.Word.uri, values, select, new String[]{str1});
     }
 
     private void searchWords(){
@@ -246,9 +262,14 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
     private ArrayList<Map<String, String>> select(String str){
-        String sql = "select * from words where word like ? order by word desc";
-        SQLiteDatabase db = mWord.getReadableDatabase();
-        Cursor cursor = db.rawQuery(sql, new String[]{"%"+str+"%"});
+//        String sql = "select * from words where word like ? order by word desc";
+//        SQLiteDatabase db = mWord.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(sql, new String[]{"%"+str+"%"});
+//        return getSearchedWords(cursor);
+        String select = "word like ?";
+        String order = "word desc";
+        Log.v("MainActivity", str);
+        Cursor cursor = resolver.query(Words.Word.uri, null, select, new String[]{"%"+str+"%"}, null);
         return getSearchedWords(cursor);
     }
     private ArrayList<Map<String, String>> getSearchedWords(Cursor cursor){
