@@ -1,5 +1,7 @@
 package com.example.mediaplayer;
 
+import static com.example.mediaplayer.Music.MusicId;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +24,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     ServiceConnection connection;
     MyService myService;
     boolean isPlaying = false;
+    Intent intent;
 
     public static Handler handler = new Handler(){
         @Override
@@ -37,6 +40,8 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        intent = getIntent();
 
         service = findViewById(R.id.btn_service);
         start = findViewById(R.id.btn_start);
@@ -88,10 +93,17 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_start:
                 myService.getMe();
-                myService.play();
+                myService.play(intent.getStringExtra(MusicId));
                 break;
             case R.id.btn_pause:
-                myService.pause();
+                if(pause.getText().equals("暂停")){
+                    myService.pause();
+                    pause.setText("继续");
+                }
+                else if(pause.getText().equals("继续")){
+                    myService.continuePlay();
+                    pause.setText("暂停");
+                }
                 break;
             case R.id.btn_stop:
                 myService.stop();

@@ -34,9 +34,9 @@ public class MyService extends Service {
     public void getMe(){
         Toast.makeText(getApplicationContext(), "122222222", Toast.LENGTH_SHORT).show();
     }
-    public void play(){
+    public void play(String id){
         mediaPlayer.reset();
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music1);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), Integer.parseInt(id));
         mediaPlayer.start();
         addTimer();
     }

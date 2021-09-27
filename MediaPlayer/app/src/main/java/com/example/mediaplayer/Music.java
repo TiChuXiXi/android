@@ -1,11 +1,20 @@
 package com.example.mediaplayer;
 
-public class Music {
+import java.io.Serializable;
+
+public class Music implements Serializable {
+
+    public static final String MusicName = "MUSICNAME";
+    public static final String MusicId = "MUSICID";
+
     private String musicName;
     private int id;
+    private boolean isAdd;
 
-    public Music(){
-
+    public Music(String musicName, int id, boolean isAdd){
+        this.musicName = musicName;
+        this.id = id;
+        this.isAdd = isAdd;
     }
 
     public String getMusicName() {
@@ -22,5 +31,13 @@ public class Music {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isAdd() {
+        return isAdd;
+    }
+
+    public void setAdd(boolean add) {
+        isAdd = add;
     }
 }
