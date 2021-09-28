@@ -62,7 +62,6 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-
             }
         };
 
@@ -106,7 +105,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.btn_stop:
-                myService.stop();
+                myService.pause();
+                unbindService(connection);
+                finish();
                 break;
         }
     }

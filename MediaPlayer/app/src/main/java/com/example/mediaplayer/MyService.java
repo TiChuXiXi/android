@@ -15,7 +15,8 @@ import java.util.TimerTask;
 public class MyService extends Service {
 
     MusicBind musicBind = new MusicBind();
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    MediaPlayer mediaPlayer;
+    Timer timer;
 
     public MyService() {
     }
@@ -54,18 +55,37 @@ public class MyService extends Service {
         mediaPlayer.seekTo(i);
     }
     public void addTimer(){
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Message message = MainActivity2.handler.obtainMessage();
-                Bundle bundle = new Bundle();
-                bundle.putInt("current", mediaPlayer.getCurrentPosition());
-                bundle.putInt("duration", mediaPlayer.getDuration());
-                message.setData(bundle);
-                MainActivity2.handler.sendMessage(message);
-            }
-        };
-        timer.schedule(task, 100, 500);
+        if(timer == null){
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    if(mediaPlayer == null) return;
+                    Message message = MainActivity2.handler.obtainMessage();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("current", mediaPlayer.getCurrentPosition());
+                    bundle.putInt("duration", mediaPlayer.getDuration());
+                    message.setData(bundle);
+                    MainActivity2.handler.sendMessage(message);
+                }
+            };
+            timer.schedule(task, 100, 500);
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mediaPlayer = new MediaPlayer();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stop();
+        Toast.makeText(this, "xixixi", Toast.LENGTH_SHORT).show();
+        mediaPlayer = null;
+        timer = null;
     }
 }
