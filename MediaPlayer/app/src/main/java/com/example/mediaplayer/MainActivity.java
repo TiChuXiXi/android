@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                intent.putExtra(MusicId, myList.get(i).get(MusicId));
+                intent.putExtra("MusicList", allList);
+                intent.putExtra("index", i);
                 startActivity(intent);
             }
         });
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity{
         for(int i = 0; i < myList.size(); i++){
             if(myList.get(i).get(MusicId).equals(musicId)){
                 myList.remove(i);
+                allList.remove(i);
                 return;
             }
         }
