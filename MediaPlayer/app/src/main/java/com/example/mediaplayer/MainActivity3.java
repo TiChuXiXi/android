@@ -2,17 +2,16 @@ package com.example.mediaplayer;
 
 import static com.example.mediaplayer.Music.MusicId;
 import static com.example.mediaplayer.Music.MusicName;
+import static com.example.mediaplayer.Music.SingerName;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,6 @@ public class MainActivity3 extends AppCompatActivity {
         playMusic = (ArrayList<Music>) intent.getSerializableExtra("playList");
         allMusic = getAll();
         showMusic = isNotPlay(allMusic, playMusic);
-        Toast.makeText(this, ""+playMusic.size()+":"+allMusic.size()+":"+showMusic.size(), Toast.LENGTH_SHORT).show();
         myList = getUnListMusic(showMusic);
         setAdapter(myList, listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,6 +41,7 @@ public class MainActivity3 extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Music music = showMusic.get(i);
                 intent.putExtra(MusicName, music.getMusicName());
+                intent.putExtra(SingerName, music.getSingerName());
                 intent.putExtra(MusicId, music.getId());
                 setResult(1, intent);
                 finish();
@@ -52,7 +51,7 @@ public class MainActivity3 extends AppCompatActivity {
 
     public void setAdapter(ArrayList<Map<String, String>> myList, ListView listView){
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, myList, R.layout.items,
-                new String[]{MusicName, MusicId}, new int[]{R.id.musicName, R.id.musicId});
+                new String[]{MusicName,SingerName, MusicId}, new int[]{R.id.musicName,R.id.singerName, R.id.musicId});
         listView.setAdapter(simpleAdapter);
     }
 
@@ -61,6 +60,7 @@ public class MainActivity3 extends AppCompatActivity {
         for(int i = 0; i < AllList.size(); i++){
             Map<String, String> map = new HashMap<>();
             map.put(MusicName, AllList.get(i).getMusicName());
+            map.put(SingerName, AllList.get(i).getSingerName());
             map.put(MusicId, AllList.get(i).getId()+"");
             list.add(map);
         }
@@ -68,11 +68,12 @@ public class MainActivity3 extends AppCompatActivity {
     }
 
     public ArrayList<Music> getAll(){
-        String[] NAME = {"123", "456", "789"};
+        String[] MUSICNAME = {"至少还有你", "最初的记忆", "愿得一人心"};
+        String[] SINGERNAME = {"姚贝娜", "徐佳莹", "李行亮"};
         int[] ID = {R.raw.music1, R.raw.music2, R.raw.music3};
         ArrayList<Music> list = new ArrayList<>();
-        for(int i = 0; i < NAME.length; i++){
-            Music music = new Music(NAME[i], ID[i], false);
+        for(int i = 0; i < MUSICNAME.length; i++){
+            Music music = new Music(MUSICNAME[i], SINGERNAME[i], ID[i], false);
             list.add(music);
         }
         return list;

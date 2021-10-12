@@ -7,10 +7,9 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,30 +18,71 @@ public class MyService extends Service {
     MusicBind musicBind = new MusicBind();
     MediaPlayer mediaPlayer;
     Timer timer;
-    int i = 0;
+    int nowIndex, duration;
+    ArrayList<Music> list;
+    boolean isRandom = false, isLoop = false;
 
     public MyService() {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+    @Override
     public IBinder onBind(Intent intent) {
         return musicBind;
     }
-
     public class MusicBind extends Binder{
         MyService getService(){
             return MyService.this;
         }
     }
 
-    public void getMe(){
-        Toast.makeText(getApplicationContext(), "122222222", Toast.LENGTH_SHORT).show();
+    public void init(){
+        mediaPlayer = new MediaPlayer();
     }
-    public void play(int id){
-        mediaPlayer.reset();
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), id);
-
+    public void getMusicList(ArrayList<Music> list){
+        this.list = list;
+    }
+    public int sendIndex(){
+        return this.nowIndex;
+    }
+    public void setRandom(boolean isRandom){
+        this.isRandom = isRandom;
+    }
+    public void play(int index, TextView musicName, TextView singerName){
+        init();
+        nowIndex = index;
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), list.get(index).getId());
+        duration = mediaPlayer.getDuration();
         mediaPlayer.start();
+        mediaPlayer.setLooping(isLoop);
+        musicName.setText(list.get(index).getMusicName());
+        singerName.setText(list.get(index).getSingerName());
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if(isRandom){
+                    while(nowIndex == index)
+                        nowIndex = (int)(Math.random() * list.size());
+                }else{
+                    nowIndex++;
+                    if(nowIndex == list.size())
+                        nowIndex = 0;
+                }
+                clear();
+                play(nowIndex, musicName, singerName);
+            }
+        });
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                clear();
+                play(nowIndex, musicName, singerName);
+                return false;
+            }
+        });
         addTimer();
     }
     public void pause(){
@@ -54,29 +94,30 @@ public class MyService extends Service {
     public void stop(){
         mediaPlayer.stop();
     }
-    public void playStyle(){
-        mediaPlayer.setLooping(true);
+    public void setLoop(boolean isLoop){
+        this.isLoop = isLoop;
+        mediaPlayer.setLooping(isLoop);
     }
     public void setPosition(int i){
         mediaPlayer.seekTo(i);
     }
+    public void clear(){
+        mediaPlayer.reset();
+        mediaPlayer = null;
+    }
     public void addTimer(){
-//        Log.v("asd", "1");
         if(timer == null){
-//            Log.v("asd", "2");
             timer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
                     if(mediaPlayer == null) return;
-//                    Log.v("asd", "3");
                     Message message = MainActivity2.handler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putInt("current", mediaPlayer.getCurrentPosition());
-                    bundle.putInt("duration", mediaPlayer.getDuration());
+                    bundle.putInt("duration", duration);
                     message.setData(bundle);
                     MainActivity2.handler.sendMessage(message);
-//                    Log.v("asd", i++ + "");
                 }
             };
             timer.schedule(task, 0, 1000);
@@ -84,27 +125,10 @@ public class MyService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                
-            }
-        });
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         stop();
         if(mediaPlayer == null) return;
-//        if(mediaPlayer.isPlaying()){
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//        }
-        Toast.makeText(this, "结束", Toast.LENGTH_SHORT).show();
         mediaPlayer = null;
     }
 }

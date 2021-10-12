@@ -2,6 +2,7 @@ package com.example.mediaplayer;
 
 import static com.example.mediaplayer.Music.MusicId;
 import static com.example.mediaplayer.Music.MusicName;
+import static com.example.mediaplayer.Music.SingerName;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
-
 
 
     ListView listView;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void setAdapter(ArrayList<Map<String, String>> myList, ListView listView){
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, myList, R.layout.items,
-                new String[]{MusicName, MusicId}, new int[]{R.id.musicName, R.id.musicId});
+                new String[]{MusicName,SingerName, MusicId}, new int[]{R.id.musicName,R.id.singerName, R.id.musicId});
         listView.setAdapter(simpleAdapter);
     }
 
@@ -66,22 +66,12 @@ public class MainActivity extends AppCompatActivity{
         for(int i = 0; i < AllList.size(); i++){
             Map<String, String> map = new HashMap<>();
             map.put(MusicName, AllList.get(i).getMusicName());
+            map.put(SingerName, AllList.get(i).getSingerName());
             map.put(MusicId, AllList.get(i).getId()+"");
             list.add(map);
         }
         return list;
     }
-
-//    public ArrayList<Music> getAll(){
-//        String[] NAME = {"123", "123", "123"};
-//        int[] ID = {R.raw.music1, R.raw.music2, R.raw.music3};
-//        ArrayList<Music> list = new ArrayList<>();
-//        for(int i = 0; i < NAME.length; i++){
-//            Music music = new Music(NAME[i], ID[i], false);
-//            list.add(music);
-//        }
-//        return list;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,7 +120,7 @@ public class MainActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 0){
             if(resultCode == 1){
-                Music music = new Music(data.getStringExtra(MusicName), data.getIntExtra(MusicId, -1), false);
+                Music music = new Music(data.getStringExtra(MusicName),data.getStringExtra(SingerName), data.getIntExtra(MusicId, -1), false);
                 allList.add(music);
                 myList = getUnListMusic(allList);
                 setAdapter(myList, listView);
