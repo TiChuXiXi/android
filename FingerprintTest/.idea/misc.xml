@@ -5,7 +5,11 @@
       <map>
         <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/layout/fingerprint_dialog.xml" value="0.1793478260869565" />
+        <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/layout/insert.xml" value="0.2269021739130435" />
+        <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/layout/items.xml" value="0.2269021739130435" />
         <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/layout/login_activity.xml" value="0.12447916666666667" />
+        <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/menu/menu_context.xml" value="0.24635416666666668" />
+        <entry key="..\:/AndroidStudio/FingerprintTest/app/src/main/res/menu/menu_main.xml" value="0.24635416666666668" />
       </map>
     </option>
   </component>
