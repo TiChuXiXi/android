@@ -20,18 +20,10 @@ import javax.crypto.Cipher;
 public class FingerprintDialogFragment extends DialogFragment {
 
     private FingerprintManager fingerprintManager;
-
     private CancellationSignal mCancellationSignal;
-
     private Cipher mCipher;
-
     private LoginActivity mActivity;
-
     private TextView errorMsg;
-
-    /**
-     * 标识是否是用户主动取消的认证。
-     */
     private boolean isSelfCancelled;
 
     public void setCipher(Cipher cipher) {
@@ -62,6 +54,7 @@ public class FingerprintDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 dismiss();
                 stopListening();
+                System.exit(0);
             }
         });
         return v;

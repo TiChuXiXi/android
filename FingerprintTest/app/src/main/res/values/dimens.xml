@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="show_marginEnd">10dp</dimen>
+    <dimen name="show_textSize">25sp</dimen>
+    <dimen name="main_textSize">30sp</dimen>
+    <dimen name="id_size">0sp</dimen>
+</resources>

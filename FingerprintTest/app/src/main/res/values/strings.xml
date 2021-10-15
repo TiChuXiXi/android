@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FingerprintTest</string>
+    <string name="finger_tip">请验证指纹解锁</string>
+    <string name="finger_cancel">取消</string>
+    <string name="desc">描述：</string>
+    <string name="name">账号：</string>
+    <string name="password">密码：</string>
 </resources>

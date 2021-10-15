@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="finger_line">#ccc</color>
+    <color name="dialog_backColor">#3E86A0</color>
+    <color name="dialog_textColor">#9CCCFA</color>
+    <color name="main_backColor">#02B029</color>
 </resources>

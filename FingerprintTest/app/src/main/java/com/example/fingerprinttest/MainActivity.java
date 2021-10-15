@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,16 +16,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -51,6 +60,29 @@ public class MainActivity extends AppCompatActivity {
         accountDBHelper = new AccountDBHelper(this);
         accountList = getAll();
         setAdapter(listView, accountList);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map<String, String> map = accountList.get(i);
+                Log.v("asd", map.get(Account.DESCRIPTION));
+                Dialog dialog = new Dialog(MainActivity.this, R.style.MyShowDialogStyle);
+                View dialogView = LayoutInflater.from(MainActivity.this).inflate(R.layout.show, null);
+                dialog.setContentView(dialogView);
+                TextView desc = dialogView.findViewById(R.id.show_desc);
+                TextView name = dialogView.findViewById(R.id.show_name);
+                TextView password = dialogView.findViewById(R.id.show_password);
+                desc.setText(map.get(Account.DESCRIPTION));
+                name.setText(map.get(Account.NAME));
+                password.setText(map.get(Account.PASSWORD));
+                Window dialogWindow = dialog.getWindow();
+                dialogWindow.setGravity(Gravity.BOTTOM);
+                WindowManager.LayoutParams bottom = dialogWindow.getAttributes();
+                bottom.y = 20;
+                dialogWindow.setAttributes(bottom);
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -117,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addAccount(){
         final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.insert, null);
-        new AlertDialog.Builder(this).setTitle("新增").setView(linearLayout).
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle("新增").setView(linearLayout).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -125,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
                         String name = ((EditText)linearLayout.findViewById(R.id.account_name)).getText().toString();
                         String password = ((EditText)linearLayout.findViewById(R.id.account_password)).getText().toString();
                         insert(desc, name, password);
-                        setAdapter(listView, getAll());
+                        accountList = getAll();
+                        setAdapter(listView, accountList);
                     }
                 }).
                 setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -141,12 +174,13 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL(sql, new String[]{arg1, arg2, arg3});
     }
     public void deleteAccount(String id){
-        new AlertDialog.Builder(this).setTitle("新增").
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setMessage("确定删除？").
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         delete(id);
-                        setAdapter(listView, getAll());
+                        accountList = getAll();
+                        setAdapter(listView, accountList);
                     }
                 }).
                 setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -168,12 +202,13 @@ public class MainActivity extends AppCompatActivity {
         edit_desc.setText(arg2);
         edit_name.setText(arg3);
         edit_password.setText(arg4);
-        new AlertDialog.Builder(this).setTitle("更新数据").setView(linearLayout).
+        new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle("更新数据").setView(linearLayout).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         update(arg1, arg2, arg3, arg4);
-                        setAdapter(listView, getAll());
+                        accountList = getAll();
+                        setAdapter(listView, accountList);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

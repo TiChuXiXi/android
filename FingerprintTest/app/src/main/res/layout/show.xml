@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/show_background"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/show_textSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_marginEnd="@dimen/show_marginEnd"
             android:text="@string/desc"
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/account_desc"
+        <TextView
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
+            android:id="@+id/show_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/show_textSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_marginEnd="@dimen/show_marginEnd"
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
             android:text="@string/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/account_name"
+        <TextView
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
+            android:id="@+id/show_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/show_textSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_marginEnd="@dimen/show_marginEnd"
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
             android:text="@string/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/account_password"
+        <TextView
+            android:textSize="@dimen/show_textSize"
+            android:textColor="@color/dialog_textColor"
+            android:id="@+id/show_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
